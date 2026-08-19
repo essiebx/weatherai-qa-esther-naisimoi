@@ -2,8 +2,15 @@
 
 **Author:** Esther Naisimoi  
 **Role:** QA Automation Engineer Assignment  
-**API:** [weather-ai.co/docs](https://weather-ai.co/docs)
+**API Documentation:** [weather-ai.co/docs](https://weather-ai.co/docs)  
 
+[![pytest](https://img.shields.io/badge/Test%20Report-Live%20Execution-brightgreen?style=for-the-badge&logo=pytest)](https://essiebx.github.io/weatherai-qa-esther-naisimoi/report.html?sort=result)
+
+---
+>  **Live Test Report Available**  
+> The pytest automation suite generates and deploys an interactive execution report on every workflow run.  
+> **[Click here to view the live test results](https://essiebx.github.io/weatherai-qa-esther-naisimoi/report.html?sort=result)
+-  **Deployment Pipeline:** GitHub Actions & GitHub Pages
 ---
 
 ## What This Tests
