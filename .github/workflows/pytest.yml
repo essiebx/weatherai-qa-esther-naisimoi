@@ -35,17 +35,17 @@ jobs:
         pytest tests/test_weatherai.py -v --html=report.html --self-contained-html
       continue-on-error: true
 
-    - name: Upload Test Report Artifact
-      uses: actions/upload-artifact@v4
+    - name: Prepare Public Directory
       if: always()
-      with:
-        name: weatherai-test-report
-        path: report.html
+      run: |
+        mkdir public
+        cp report.html public/report.html
+        echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=report.html"></head><body><p>Redirecting to <a href="report.html">Test Report</a>...</p></body></html>' > public/index.html
 
     - name: Deploy Report to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .
+        publish_dir: ./public
         publish_branch: gh-pages
