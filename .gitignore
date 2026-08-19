@@ -1,0 +1,5 @@
+.myenv/
+.pytest_cache/
+report.html
+__pycache__/
+*.pyc

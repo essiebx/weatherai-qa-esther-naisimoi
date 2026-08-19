@@ -1,0 +1,51 @@
+name: Run QA Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Execute Pytest Suite
+      env:
+        WEATHERAI_API_KEY: ${{ secrets.WEATHERAI_API_KEY }}
+        WAI_API_KEY: ${{ secrets.WEATHERAI_API_KEY }}
+      run: |
+        pytest tests/test_weatherai.py -v --html=report.html --self-contained-html
+      continue-on-error: true
+
+    - name: Upload Test Report Artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: weatherai-test-report
+        path: report.html
+
+    - name: Deploy Report to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
+        publish_branch: gh-pages
